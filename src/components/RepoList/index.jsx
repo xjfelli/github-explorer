@@ -1,4 +1,5 @@
 import { FiArrowLeft } from "react-icons/fi"
+import { RepoItems } from "../RepoItems"
 import { Container } from "./styles"
 
 export function ReposList({ user, userRepo, setIsReposListActive }) {
@@ -14,11 +15,7 @@ export function ReposList({ user, userRepo, setIsReposListActive }) {
 
       <ul>
         {userRepo.map((response) => (
-          <li key={response.key}>
-            <h2>{response.name}</h2>
-            <p>{response.description}</p>
-            <a href="/">{response.html_url}</a>
-          </li>
+          <RepoItems response={response}/>
         ))}
       </ul>
     </Container>

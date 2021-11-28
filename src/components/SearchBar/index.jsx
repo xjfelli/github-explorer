@@ -5,18 +5,27 @@ import { Container } from "./styles"
 export function SearchBar({ setUser, setUserRepos }) {
   const [searchedValue, setSearchedValue] = useState("")
 
+
   function getUserData(e) {
     e.preventDefault()
 
     try {
       fetch(`https://api.github.com/users/${searchedValue}`)
         .then((response) => response.json())
-        .then((data) => setUser(data))
+        .then((data) => {
+          if (data.login) {
+            setUser(data)
+          } else {
+            setUser(null);
+            console.log("usuário não encontrado")
+          }
+        })
 
-       fetch(`https://api.github.com/users/${searchedValue}/repos`)
-          .then((response) => response.json())
-          .then((data) => setUserRepos(data))
+      fetch(`https://api.github.com/users/${searchedValue}/repos`)
+        .then((response) => response.json())
+        .then((data) => setUserRepos(data))
     } catch (error) {
+      
       console.log(error)
     }
     console.log("Sucess fetch!")

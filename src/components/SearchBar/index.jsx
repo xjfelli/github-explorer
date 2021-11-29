@@ -1,16 +1,17 @@
-import { useState } from "react"
+import React, { createRef, useState } from "react"
 import { FiSearch } from "react-icons/fi"
 import { Container } from "./styles"
 
 export function SearchBar({ setUser, setUserRepos }) {
-  const [searchedValue, setSearchedValue] = useState("")
+  // const [searchedValue, setSearchedValue] = useState("")
 
+  var input = createRef();
 
   function getUserData(e) {
     e.preventDefault()
-
+    console.log(`Valor inserido: ${input.current.value}`);
     try {
-      fetch(`https://api.github.com/users/${searchedValue}`)
+      fetch(`https://api.github.com/users/${input.current.value}`)
         .then((response) => response.json())
         .then((data) => {
           if (data.login) {
@@ -21,7 +22,7 @@ export function SearchBar({ setUser, setUserRepos }) {
           }
         })
 
-      fetch(`https://api.github.com/users/${searchedValue}/repos`)
+      fetch(`https://api.github.com/users/${input.current.value}/repos`)
         .then((response) => response.json())
         .then((data) => setUserRepos(data))
     } catch (error) {
@@ -39,8 +40,8 @@ export function SearchBar({ setUser, setUserRepos }) {
           <span>github.com</span>
           <input
             type="text"
-            value={searchedValue}
-            onChange={(e) => setSearchedValue(e.target.value)}
+            value={input.value}
+            ref={input}
           />
         </div>
         <button type="submit">
